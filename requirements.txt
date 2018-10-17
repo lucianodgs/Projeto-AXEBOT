@@ -1,0 +1,11 @@
+requests
+httpretty
+nose
+mock
+coverage
+nose-cov
+Quandl
+python-decouple
+pandas
+lxml==3.3.1
+sniffer
