@@ -21,9 +21,10 @@ from bitfinex.client import Client
 period = 1
 symbol = 'xrpusd'
 client = Client()
-
-def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
-    return time.mktime(time.strptime(datestr, format))
+tendencia = ['Subir','Cair']
+id_tendencia = 0
+ultimas_compras = [0.0,0.0,0.0]
+cont_compras = 0
 
 
 while True:
@@ -34,5 +35,21 @@ while True:
         print("erro: %s" %inst)
         continue
 
-    print("Compra: %s ;Venda: %s ; Menor: %s ;Maior: %s; Data: %s" %(ret['bid'],ret['ask'],  ret_day['low'], ret_day['high'], time.ctime(ret['timestamp'])))
+    if ultimas_compras[cont_compras] == 0:
+        ultimas_compras[cont_compras] = ret['bid']
+        id_tendencia=0
+    elif ultimas_compras[cont_compras] <= ret['bid']:
+        ultimas_compras[cont_compras] = ret['bid']
+        id_tendencia = 0
+    elif ultimas_compras[cont_compras] > ret['bid']:
+        ultimas_compras[cont_compras] = ret['bid']
+        id_tendencia = 1
+
+    if cont_compras == 2:
+        cont_compras = 0
+    else:
+        cont_compras+=1
+
+    print("%s | %s | %s" %(ultimas_compras[0],ultimas_compras[1],ultimas_compras[2]))
+    print("Compra: %s ;Venda: %s ; Menor: %s ;Maior: %s; Data: %s | Tendencia: %s"  %(ret['bid'],ret['ask'],  ret_day['low'], ret_day['high'], time.ctime(ret['timestamp']),tendencia[id_tendencia]))
     time.sleep(int(period))
