@@ -18,7 +18,7 @@ import json
 import time
 from bitfinex.client import Client
 
-period = 10
+period = 1
 symbol = 'xrpusd'
 client = Client()
 
@@ -27,8 +27,12 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
 
 
 while True:
-    ret_day = client.today(symbol)
-    ret = client.ticker(symbol)
+    try:
+        ret_day = client.today(symbol)
+        ret = client.ticker(symbol)
+    except Exception as inst:
+        print("erro: %s" %inst)
+        continue
 
     print("Compra: %s ;Venda: %s ; Menor: %s ;Maior: %s; Data: %s" %(ret['bid'],ret['ask'],  ret_day['low'], ret_day['high'], time.ctime(ret['timestamp'])))
     time.sleep(int(period))
