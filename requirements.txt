@@ -1,3 +1,4 @@
+bitfinex
 requests
 httpretty
 nose
