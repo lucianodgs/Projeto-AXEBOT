@@ -22,7 +22,7 @@ symbol = 'xrpusd'
 client = Client()
 tendencia = ['Alta', 'Baixa']
 id_tendencia = 0
-ultimas_compras = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ultimas_compras = [0.0] * 5
 cont_compras = 0
 
 
@@ -44,16 +44,18 @@ while True:
         ultimas_compras[cont_compras] = ret['bid']
         id_tendencia = 1
 
-    if cont_compras == 5:
+    if cont_compras == 4:
         cont_compras = 0
     else:
         cont_compras += 1
 
-    print("%s | %s | %s"
-          % (ultimas_compras[0],
-             ultimas_compras[1],
-             ultimas_compras[2]))
-    print("Compra: %s ;Venda: %s ; Menor: %s ;Maior: %s; Data: %s | Tendencia: %s"
+    print("%s | %s | %s| %s | %s"
+         % (ultimas_compras[0],
+            ultimas_compras[1],
+            ultimas_compras[2],
+            ultimas_compras[3],
+            ultimas_compras[4]))
+    print("Compra: %s ;Venda: %s ; Menor: %s ;Maior: %s; Data: %s | Tendência: %s"
           % (ret['bid'],
              ret['ask'],
              ret_day['low'],
